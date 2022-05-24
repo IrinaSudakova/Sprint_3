@@ -3,49 +3,43 @@ package Order;
 import Courier.RestAssuredApi;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
-
 public class OrderApi extends RestAssuredApi {
 
-    private final static String ORDER = "/orders";
-    private final static String LISTORDERS = "/orders?courierId=";
-    private final static String TRACK = "/orders/track?t=";
-    private final static String TAKEORDER = "/orders/accept/";
+    private final static String ORDERS = "/orders/";
+    private final static String LISTORDERS = ORDERS;
+    private final static String TRACK = ORDERS + "track";
+    private final static String TAKEORDER = ORDERS + "accept/{orderId}";
 
     public Response order(CreateOrder createOrder) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        return reqSpec
                 .and()
                 .body(createOrder)
                 .when()
-                .post(ORDER);
+                .post(ORDERS);
 
     }
 
     public ResponseListOrder listOrders(int courierId) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
-                .get(LISTORDERS + courierId)
+        return reqSpec
+                .queryParam("courierId", courierId)
+                .get(LISTORDERS)
                 .body().as(ResponseListOrder.class);
 
     }
 
-    public ResponseOrder getIdOrderofTrack(int trackId) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
-                .get(TRACK + trackId)
+    public ResponseOrder getIdOrderTrack(int trackId) {
+        return reqSpec
+                .queryParam("t", trackId)
+                .get(TRACK)
                 .body().as(ResponseOrder.class);
 
     }
 
     public boolean takeOrderCourier(int orderId, int courierId) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
-                .put(TAKEORDER + orderId + "?courierId=" + courierId)
+        return reqSpec.log().all()
+                .pathParam("orderId", orderId)
+                .queryParam("courierId", courierId)
+                .put(TAKEORDER)
                 .then()
                 .assertThat()
                 .statusCode(200)

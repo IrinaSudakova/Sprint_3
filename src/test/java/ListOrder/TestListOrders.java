@@ -38,8 +38,7 @@ public class TestListOrders {
         response = orderApi.order(createOrder);
         trackId = response.getBody().path("track");
 
-        ResponseOrder responseOrder = new ResponseOrder();
-        responseOrder = orderApi.getIdOrderofTrack(trackId);
+        ResponseOrder responseOrder = orderApi.getIdOrderTrack(trackId);
         orderId = responseOrder.getOrder().getId();
         boolean takeOrderCourier = orderApi.takeOrderCourier(orderId, courierId);
         assertTrue(takeOrderCourier);

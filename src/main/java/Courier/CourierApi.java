@@ -2,17 +2,13 @@ package Courier;
 
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
-
 public class CourierApi extends RestAssuredApi {
 
     private final static String REGISTRATION = "/courier";
     private final static String LOGIN = "/courier/login";
 
     public boolean create(CourierCredentials courierCredentials) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        return reqSpec
                 .and()
                 .body(courierCredentials)
                 .when()
@@ -26,9 +22,7 @@ public class CourierApi extends RestAssuredApi {
     }
 
     public Response createResp(CourierCredentials courierCredentials) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        return reqSpec
                 .and()
                 .body(courierCredentials)
                 .when()
@@ -38,9 +32,7 @@ public class CourierApi extends RestAssuredApi {
     }
 
     public int login(LoginCredentials loginCredentials) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        return reqSpec
                 .body(loginCredentials)
                 .post(LOGIN)
                 .then()
@@ -52,18 +44,14 @@ public class CourierApi extends RestAssuredApi {
     }
 
     public Response loginResp(LoginCredentials loginCredentials) {
-        return given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        return reqSpec
                 .body(loginCredentials)
                 .post(LOGIN);
 
     }
 
     public void delete(int courierId) {
-        given()
-                .header("Content-type", "application/json")
-                .baseUri(URL)
+        reqSpec
                 .delete(REGISTRATION + "/" + courierId)
                 .then().log().all()
                 .assertThat()
