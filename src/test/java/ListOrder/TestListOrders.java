@@ -38,8 +38,7 @@ public class TestListOrders {
         response = orderApi.order(createOrder);
         trackId = response.getBody().path("track");
 
-        ResponseOrder responseOrder = new ResponseOrder();
-        responseOrder = orderApi.getIdOrderofTrack(trackId);
+        ResponseOrder responseOrder = orderApi.getIdOrderTrack(trackId);
         orderId = responseOrder.getOrder().getId();
         boolean takeOrderCourier = orderApi.takeOrderCourier(orderId, courierId);
         assertTrue(takeOrderCourier);
@@ -55,7 +54,6 @@ public class TestListOrders {
         responseListOrder  = orderApi.listOrders(courierId);
         actualID = responseListOrder.getOrders().get(0).getId();
         assertEquals(orderId,actualID );
-        System.out.println(" ID заказа у курьера = " + orderId);
-        System.out.println(" Фактический ID = " + actualID);
+
     }
 }

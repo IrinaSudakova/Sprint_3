@@ -4,6 +4,7 @@ import Order.CreateOrder;
 import Order.OrderApi;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -50,7 +51,7 @@ public class TestCreateCreateOrderRespWithTrack {
 
         }
     private OrderApi orderApi;
-    private Response response;
+    private ValidatableResponse response;
 
         @Test
         @DisplayName("Тело ответа на запрос Создать заказ содержит поле track")
@@ -60,8 +61,10 @@ public class TestCreateCreateOrderRespWithTrack {
             orderApi = new OrderApi();
 
             CreateOrder createOrder = new CreateOrder(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment,color);
-            response = orderApi.order(createOrder);
-            response.then().assertThat().body(containsString("track"));
+            response = orderApi.order(createOrder)
+                    .then()
+                    .assertThat()
+                    .body(containsString("track"));
 
 
         }
