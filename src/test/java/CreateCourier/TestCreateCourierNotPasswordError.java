@@ -3,6 +3,7 @@ package CreateCourier;
 import Courier.CourierApi;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +25,10 @@ public class TestCreateCourierNotPasswordError {
                 .login(RandomStringUtils.randomAlphabetic(10))
                 .firstName(RandomStringUtils.randomAlphabetic(10))
                 .build();
-        Response response = courierApi.createResp(courier);
-       response.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
+        ValidatableResponse response = courierApi.createResp(courier)
+                .then()
+                .assertThat()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"));
 
     }
 }

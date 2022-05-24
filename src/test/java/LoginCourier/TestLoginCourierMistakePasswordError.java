@@ -5,6 +5,7 @@ import Courier.CourierCredentials;
 import Courier.LoginCredentials;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -41,8 +42,10 @@ public class TestLoginCourierMistakePasswordError {
 
         courier.setPassword(RandomStringUtils.randomAlphabetic(9));
         loginCredentials = LoginCredentials.from(courier);
-        Response response = courierApi.loginResp(loginCredentials);
-        response.then().assertThat().body("message", equalTo("Учетная запись не найдена"));
+        ValidatableResponse response = courierApi.loginResp(loginCredentials)
+                .then()
+                .assertThat()
+                .body("message", equalTo("Учетная запись не найдена"));
 
     }
 }

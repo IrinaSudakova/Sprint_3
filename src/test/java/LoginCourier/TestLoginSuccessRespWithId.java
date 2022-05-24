@@ -5,6 +5,7 @@ import Courier.CourierCredentials;
 import Courier.LoginCredentials;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,8 @@ public class TestLoginSuccessRespWithId {
 
         LoginCredentials loginCredentials = LoginCredentials.from(courier);
         response = courierApi.loginResp(loginCredentials);
-        response.then().assertThat().body(containsString("id"));
+                response.then()
+                .assertThat().body(containsString("id"));
 
 
     }

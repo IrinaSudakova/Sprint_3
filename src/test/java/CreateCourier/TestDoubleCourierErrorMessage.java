@@ -5,6 +5,7 @@ import Courier.CourierCredentials;
 import Courier.LoginCredentials;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +34,10 @@ public class TestDoubleCourierErrorMessage {
         CourierCredentials courier = CourierCredentials.getRandom();
         boolean created  = courierApi.create(courier);
         assertTrue(created);
-        Response response  = courierApi.createResp(courier);
-        response.then().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+        ValidatableResponse response  = courierApi.createResp(courier)
+                .then()
+                .assertThat()
+                .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
 
         LoginCredentials loginCredentials = LoginCredentials.from(courier);
         courierId = courierApi.login(loginCredentials);

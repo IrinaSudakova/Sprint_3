@@ -55,7 +55,6 @@ public class TestListOrders {
         responseListOrder  = orderApi.listOrders(courierId);
         actualID = responseListOrder.getOrders().get(0).getId();
         assertEquals(orderId,actualID );
-        System.out.println(" ID заказа у курьера = " + orderId);
-        System.out.println(" Фактический ID = " + actualID);
+
     }
 }

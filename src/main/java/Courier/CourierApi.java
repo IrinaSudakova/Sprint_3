@@ -6,8 +6,8 @@ import static io.restassured.RestAssured.given;
 
 public class CourierApi extends RestAssuredApi {
 
-    private final static String REGISTRATION ="/courier";
-    private final static String LOGIN= "/courier/login";
+    private final static String REGISTRATION = "/courier";
+    private final static String LOGIN = "/courier/login";
 
     public boolean create(CourierCredentials courierCredentials) {
         return given()
@@ -25,7 +25,7 @@ public class CourierApi extends RestAssuredApi {
 
     }
 
-    public Response createResp (CourierCredentials courierCredentials) {
+    public Response createResp(CourierCredentials courierCredentials) {
         return given()
                 .header("Content-type", "application/json")
                 .baseUri(URL)
@@ -36,6 +36,7 @@ public class CourierApi extends RestAssuredApi {
 
 
     }
+
     public int login(LoginCredentials loginCredentials) {
         return given()
                 .header("Content-type", "application/json")
@@ -49,6 +50,7 @@ public class CourierApi extends RestAssuredApi {
                 .path("id");
 
     }
+
     public Response loginResp(LoginCredentials loginCredentials) {
         return given()
                 .header("Content-type", "application/json")
@@ -57,12 +59,13 @@ public class CourierApi extends RestAssuredApi {
                 .post(LOGIN);
 
     }
+
     public void delete(int courierId) {
-               given()
+        given()
                 .header("Content-type", "application/json")
                 .baseUri(URL)
-                .delete(REGISTRATION +'/'+courierId)
-                 .then().log().all()
+                .delete(REGISTRATION + "/" + courierId)
+                .then().log().all()
                 .assertThat()
                 .statusCode(200)
                 .extract().body();
